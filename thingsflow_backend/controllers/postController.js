@@ -39,6 +39,35 @@ module.exports = {
    */
   createPost: async (res, req) => {
     try {
-    } catch (error) {}
+      const { title, content, password } = req.body;
+      if (!title || !content || !password) {
+        return res
+          .status(statusCode.BAD_REQUEST)
+          .send(util.fail(statusCode.BAD_REQUEST, responseMessage.NULL_VALUE));
+      }
+
+      if (title.length > 20 || content.length > 200) {
+        return res
+          .status(statusCode.BAD_REQUEST)
+          .send(
+            util.fail(statusCode.BAD_REQUEST, responseMessage.CREATE_POST_FAIL)
+          );
+      }
+
+      await postService.createPost(title, content, password);
+
+      return res
+        .status(statusCode.OK)
+        .send(util.success(statusCode.OK, responseMessage.CREATE_POST_SUCCESS));
+    } catch (error) {
+      return res
+        .status(statusCode.INTERNAL_SERVER_ERROR)
+        .send(
+          util.fail(
+            statusCode.INTERNAL_SERVER_ERROR,
+            responseMessage.INTERNAL_SERVER_ERROR
+          )
+        );
+    }
   },
 };

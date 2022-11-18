@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const post = require("../entities/post");
 const { AppDataSource } = require("../models/db");
 
@@ -8,5 +9,12 @@ module.exports = {
     });
     return result;
   },
-  createPost: async () => {},
+  createPost: async (title, content, password) => {
+    const hashedPassword = bcrypt.hash(password, 12);
+    await AppDataSource.getRepository(post).create({
+      title,
+      content,
+      password: hashedPassword,
+    });
+  },
 };

@@ -7,4 +7,6 @@ module.exports = {
 
   // post
   READ_ALL_POST: "전체 게시글 조회 성공",
+  CREATE_POST_FAIL: "글자수 초과",
+  CREATE_POST_SUCCESS: "게시글 작성 성공",
 };
